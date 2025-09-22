@@ -13,19 +13,26 @@
 		<header>
 			<a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
             <nav>
-			<a href="index.html">Home</a>
-            <a href="member.html">Members</a>
-            <a href="projects.html">Current Projects</a>
-            <a href="finances.html">Finances</a>
+			    <a href="index.html">Home</a>
 		    </nav>
 		</header>
 		<main>
-			
+			<div class="login-container">
+                <h2>Officer Login</h2>
+                <form action="officer_dashboard.html" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <br>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
 		</main>
 		<footer>
 			<p>&copy; 2025 Lindbergh Robotics</p>
 			<p>Website by Kaden Cruts</p>
-			<a href="officer.html">Officer - login in</a>
 		</footer>
 </body>
 </html>

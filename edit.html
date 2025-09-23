@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<title>Lindbergh Robotics</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="keywords" content="Robotics, Lindbergh, FTC, First Tech Challenge, Robotics Club, Flybots, STEM, Engineering, Technology, Highschool Robotics">
+		<meta name="description" content="Lindbergh Robotics is a high school robotics club that builds robots for the First Tech Challenge (FTC) competition, and does outreach to promote STEM education.">
+        <link rel="icon" type="image/x-icon" href="images/robot.png">
+        <link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+    <body>
+		<header>
+			<a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
+            <nav>
+			<a href="index.html">Home</a>
+            <a href="member.html">Members</a>
+            <a href="projects.html">Current Projects</a>
+            <a href="finances.html">Finances</a>
+		    </nav>
+		</header>
+		<main>
+			<div class="edit-container">
+				<!-- Projects Edit -->
+				<div>
+					<h2>Edit Projects Page</h2>
+					<form class="edit-form" data-page="projects" data-index="2">
+						<label for="project1">Project 1:</label>
+						<input type="text" id="project1" name="title" value="Augmented Reality Cart">
+						<button type="button">upload image</button>
+						<br>
+						<label for="cost1">Cost:</label>
+						<input type="text" id="cost1" name="cost" value="$1000">
+						<label for="description1">Description:</label>
+						<textarea class="project-description" id="description1" name="description">Our Augmented Reality Cart project aims to create an interactive experience for users by integrating augmented reality (AR) technology with a mobile robot platform.</textarea>
+						<button type="submit">Save Changes</button>
+					</form>
+				</div>
+
+				<!-- Members Edit -->
+				<div>
+					<h2>Edit Members Page</h2>
+					<form class="edit-form" data-page="members" data-index="0">
+						<label for="member1">Member 1:</label>
+						<input type="text" id="member1" name="name" value="John Doe">
+						<button type="button">upload image</button>
+						<br>
+						<label for="role1">Role:</label>
+						<input type="text" id="role1" name="role" value="Driver">
+						<label for="bio1">Bio:</label>
+						<textarea class="member-bio" id="bio1" name="bio">John is a senior at Lindbergh High School and has been a member of the robotics team for three years.</textarea>
+						<button type="submit">Save Changes</button>
+					</form>
+					<form class="edit-form" data-page="members" data-index="1">
+						<label for="member2">Member 2:</label>
+						<input type="text" id="member2" name="name" value="Jane Smith">
+						<button type="button">upload image</button>
+						<br>
+						<label for="role2">Role:</label>
+						<input type="text" id="role2" name="role" value="Builder">
+						<label for="bio2">Bio:</label>
+						<textarea class="member-bio" id="bio2" name="bio">Jane is a junior at Lindbergh High School and has a passion for engineering and design.</textarea>
+						<button type="submit">Save Changes</button>
+					</form>
+				</div>
+
+				<!--Finances Edit -->
+				<div>
+					<h2>Edit Finances Page</h2>
+					<form class="edit-form" data-page="finances" data-index="0">
+						<label for="budget">Budget:</label>
+						<input type="text" id="budget" name="budget" value="$5000">
+						<button type="button">upload image</button>
+						<br>
+						<label for="expenses">Expenses:</label>
+						<textarea class="finance-expenses" id="expenses" name="expenses">Robotics parts, tools, and competition fees.</textarea>
+						<button type="submit">Save Changes</button>
+					</form>
+				</div>
+
+			</div>
+				
+
+
+
+		</main>
+		<footer>
+			<p>&copy; 2025 Lindbergh Robotics</p>
+			<p>Website by Kaden Cruts</p>
+		</footer>
+			<script src="script.js"></script>
+		</body>
+	</html>

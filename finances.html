@@ -13,14 +13,90 @@
 		<header>
 			<a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
             <nav>
-			<a href="index.html">Home</a>
-            <a href="member.html">Members</a>
-            <a href="projects.html">Current Projects</a>
-            <a href="finances.html">Finances</a>
+				<a href="index.html">Home</a>
+				<a href="member.html">Members</a>
+				<a href="projects.html">Current Projects</a>
+				<a href="finances.html">Finances</a>
 		    </nav>
 		</header>
 		<main>
-			
+			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+			<div class="finance-container">
+				<div class="finance-overview">
+					<h2>Finances Overview</h2>
+					<canvas id="financeChart" style="max-width: 600px; margin: 0 auto;"></canvas>
+					<canvas id="coveredChart" style="max-width: 600px; margin: 0 auto;"></canvas>
+					<p>Current Budget: $5000</p>
+					<p>Total Expenses: $2000</p>
+					<p>Remaining Budget: $3000</p>
+				</div>
+
+				<script>
+					const data = {
+					datasets: [{
+						label: 'My First Dataset',
+						data: [1500, 500, 1000],
+						backgroundColor: [
+						'rgb(255, 99, 132)',
+						'rgb(54, 162, 235)',
+						'rgb(255, 205, 86)'
+						],
+						hoverOffset: 4
+					}],
+					labels: [
+						'FTC',
+						'Outreach',
+						'go kart game'
+					]
+					};
+					const config = {
+						type: 'pie',
+						data: data,
+					};
+					const financeChart = new Chart(
+						document.getElementById('financeChart'),
+						config
+					);
+
+					const coveredData = {
+					datasets: [{
+						label: 'Budget Coverage',
+						data: [2000, 3000],
+						backgroundColor: [
+						'rgb(75, 192, 192)',
+						'rgb(201, 203, 207)'
+						],
+						hoverOffset: 4
+					}],
+					labels: [
+						'Covered',
+						'Remaining'
+					]
+					};
+					const coveredConfig = {
+						type: 'pie',
+						data: coveredData,
+					};
+					const coveredChart = new Chart(
+						document.getElementById('coveredChart'),
+						coveredConfig
+					);
+
+				</script>
+
+
+				<div class="finance-projects">
+					<div>
+						<h2>First Tech Challenge</h2>
+						<img src="images/ftc.png" alt="FTC Logo">
+						<p>Each Entry Cost 1500 per team</p>
+					</div>
+					<div class="progress-bar" >
+						<div class="progress-bar-fill">
+						</div>
+					</div>
+				</div>
+			</div>
 		</main>
 		<footer>
 			<p>&copy; 2025 Lindbergh Robotics</p>

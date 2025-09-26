@@ -18,21 +18,52 @@
 		</header>
 		<main>
 			<div class="login-container">
-                <h2>Officer Login</h2>
-                <form action="officer_dashboard.html" method="post">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
-                    <br>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                    <br>
-                    <input type="submit" value="Login">
-                </form>
-            </div>
+				<h2>Officer Login</h2>
+				<!-- Client-side login: sets a session token in sessionStorage. This is NOT secure for production. -->
+				<form id="officer-login-form">
+					<label for="username">Username:</label>
+					<input type="text" id="username" name="username" required>
+					<br>
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" required>
+					<br>
+					<input type="submit" value="Login">
+					<div id="login-error" style="color:#b00; margin-top:8px; display:none;"></div>
+				</form>
+				<p style="font-size:0.9em; color:#666; margin-top:10px;">Note: This demo login is client-side only. For real security, add server-side authentication.</p>
+			</div>
 		</main>
 		<footer>
 			<p>&copy; 2025 Lindbergh Robotics</p>
 			<p>Website by Kaden Cruts</p>
 		</footer>
 </body>
+		<script>
+		(function(){
+			// Simple client-side auth for demo purposes
+			var VALID_USERNAME = 'officer';
+			var VALID_PASSWORD = 'password123';
+
+			function setAuth(user) {
+				// store a minimal session token in sessionStorage
+				try { sessionStorage.setItem('lr_officerAuth', JSON.stringify({ user: user, ts: Date.now() })); }
+				catch (e) { console.warn('sessionStorage not available', e); }
+			}
+
+			document.getElementById('officer-login-form').addEventListener('submit', function(ev){
+				ev.preventDefault();
+				var u = document.getElementById('username').value.trim();
+				var p = document.getElementById('password').value;
+				var err = document.getElementById('login-error');
+				if (u === VALID_USERNAME && p === VALID_PASSWORD) {
+					setAuth(u);
+					// go to edit page
+					window.location.href = 'edit.html';
+				} else {
+					err.textContent = 'Invalid credentials.';
+					err.style.display = 'block';
+				}
+			});
+		})();
+		</script>
 </html>

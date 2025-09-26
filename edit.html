@@ -20,6 +20,18 @@
 		    </nav>
 		</header>
 		<main>
+			<script>
+			  (function(){
+			    // guard: require lr_officerAuth in sessionStorage to view this page
+			    try {
+			      var tok = sessionStorage.getItem('lr_officerAuth');
+			      if (!tok) { window.location.replace('officer.html'); }
+			    } catch (e) { console.warn('sessionStorage access failed', e); }
+			  })();
+			</script>
+			<div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:8px;">
+			  <button id="logout-btn" type="button">Logout</button>
+			</div>
 			<div class="edit-container">
 				<div class="edit-actions" style="margin-bottom:12px;">
 					<button id="add-project" type="button">Add Project</button>
@@ -90,5 +102,15 @@
 			<p>Website by Kaden Cruts</p>
 		</footer>
 			<script src="script.js"></script>
+			<script>
+			  (function(){
+			    var btn = document.getElementById('logout-btn');
+			    if (!btn) return;
+			    btn.addEventListener('click', function(){
+			      try { sessionStorage.removeItem('lr_officerAuth'); } catch(e){}
+			      window.location.href = 'officer.html';
+			    });
+			  })();
+			</script>
 		</body>
 	</html>

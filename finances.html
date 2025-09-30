@@ -82,6 +82,67 @@
 						coveredConfig
 					);
 
+					// Apply saved edits if present (saved by edit.html)
+					(function(){
+						var saved = null;
+						try { saved = JSON.parse(localStorage.getItem('finances_data') || 'null'); } catch(e) { saved = null; }
+						if (!saved) return;
+
+						// update overview numbers
+						var paras = document.querySelectorAll('.finance-overview p');
+						if (paras && paras.length >= 3) {
+							paras[0].textContent = 'Current Budget: ' + (saved.budget || paras[0].textContent.split(': ')[1]);
+							paras[1].textContent = 'Total Expenses: ' + (saved.totalExpenses || paras[1].textContent.split(': ')[1]);
+							paras[2].textContent = 'Remaining Budget: ' + (saved.remaining || paras[2].textContent.split(': ')[1]);
+						}
+
+						// update pie chart data & labels
+						if (saved.slice1Value || saved.slice2Value || saved.slice3Value) {
+							financeChart.data.datasets[0].data = [Number(saved.slice1Value)||0, Number(saved.slice2Value)||0, Number(saved.slice3Value)||0];
+						}
+						if (saved.slice1Label || saved.slice2Label || saved.slice3Label) {
+							financeChart.data.labels = [saved.slice1Label||financeChart.data.labels[0], saved.slice2Label||financeChart.data.labels[1], saved.slice3Label||financeChart.data.labels[2]];
+						}
+						financeChart.update();
+
+						// update coverage chart
+						if (saved.coveredValue || saved.coverageRemaining) {
+							coveredChart.data.datasets[0].data = [Number(saved.coveredValue)||0, Number(saved.coverageRemaining)||0];
+							coveredChart.update();
+						}
+
+						// update FTC image/progress/details
+						var ftcImg = document.getElementById('ftc-main-image');
+						var ftcFill = document.getElementById('ftc-progress-fill');
+						var dropdown = document.getElementById('myDropdown');
+						if (saved.ftcImageData) { if (ftcImg) ftcImg.src = saved.ftcImageData; }
+						if (saved.ftcProgress && ftcFill) { ftcFill.textContent = (saved.ftcProgress) + '%'; ftcFill.style.width = (Number(saved.ftcProgress)||0) + '%'; }
+						if (saved.ftcDetails && dropdown) { dropdown.textContent = saved.ftcDetails; }
+
+						// update footer donate contact and instagram
+						try {
+							if (saved.donateContact) {
+								var donateLink = document.querySelector('.donate-box a');
+								if (donateLink) donateLink.href = 'mailto:' + saved.donateContact;
+							}
+							if (saved.instagramUrl) {
+								var insta = document.querySelector('footer a[href*="instagram"]');
+								if (insta) insta.href = saved.instagramUrl;
+							}
+						} catch(e){ console.warn('failed to update footer links', e); }
+
+						// render additional finance items if present
+						try {
+						  var addList = document.getElementById('additional-finance-list');
+						  if (saved && saved.otherItems && addList) {
+						    addList.innerHTML = '<h3>Other Finance Items</h3>' +
+						      '<ul>' + saved.otherItems.map(function(it){
+						        return '<li>' + (it.label || '') + ': $' + (Number(it.value)||0) + '</li>';
+						      }).join('') + '</ul>';
+						  }
+						} catch(e) { console.warn('failed to render otherItems', e); }
+					})();
+
 				</script>
 
 
@@ -107,9 +168,10 @@
 					
 				</div>
 				<!--place holders for additional finance things-->
+				<div id="additional-finance-list">
+				  <!-- dynamic additional finance items rendered here -->
+				</div>
 				
-					
-					
 
 				</div>
 

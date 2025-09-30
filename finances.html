@@ -88,109 +88,31 @@
 				<div class="finance-projects">
 					<div>
 						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<details>
-							<summary>Click for more info</summary>
-							<p>Details about the First Tech Challenge expenses, including registration fees, travel costs, and equipment purchases.</p>
+						<div class="flex">
+							<img src="images/ftc.png" alt="FTC Logo">
+							<div class="progress-bar" >
+								<div class="progress-bar-fill">
+									80%
+								</div>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button class="dropbtn" onclick="myFunction('myDropdown')">Details ▼</button>
+							<div id="myDropdown" class="dropdown-content">
+								The FTC team consists of multiple sub teams that work on different aspects of the robot and competition. The main sub teams are:
+							</div>
 
-						</details>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-							80%
 						</div>
 					</div>
+					
 				</div>
 				<!--place holders for additional finance things-->
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<img src="images/ftc.png" alt="FTC Logo">
-						<p>Each Entry Cost 1500 per team</p>
-					</div>
-					<div class="progress-bar" >
-						<div class="progress-bar-fill">
-						</div>
-					</div>
-				</div>
 				
+					
+					
+
+				</div>
+
 			</div>
 			
 		</main>
@@ -215,6 +137,25 @@
 				
 			</div>
 		</footer>
+		<script>
+			function myFunction(element) {
+				document.getElementById(element).classList.toggle("show");
+			}
+
+			// Close the dropdown menu if the user clicks outside of it
+			window.onclick = function(event) {
+			if (!event.target.matches('.dropbtn')) {
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+				}
+			}
+			}
+		</script>
 		<script src="script.js"></script>
 		<script src="transition.js"></script>
 	</body>

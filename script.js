@@ -135,61 +135,11 @@ function createFormElement(type, index, data = {}) {
 		</form>
 	`;
 	} else if (type === 'finances') {
+		// Minimal finances editor: only manage additional finance items (name, description, image, totalNeeded, haveSoFar)
 		wrapper.innerHTML = `
 		<form class="edit-form" data-page="finances" data-index="${index}">
-			<label for="budget">Current Budget:</label>
-			<input autocomplete="off" type="text" id="budget" name="budget" value="${escapeHtml(data.budget || '')}">
-			<label for="totalExpenses">Total Expenses:</label>
-			<input autocomplete="off" type="text" id="totalExpenses" name="totalExpenses" value="${escapeHtml(data.totalExpenses || '')}">
-			<label for="remaining">Remaining Budget:</label>
-			<input autocomplete="off" type="text" id="remaining" name="remaining" value="${escapeHtml(data.remaining || '')}">
-			<hr>
-			<h3>Cost Breakdown (pie chart)</h3>
-			<div class="chart-slices">
-				<div>
-					<label for="slice1-label">Slice 1 Label:</label>
-					<input autocomplete="off" type="text" id="slice1-label" name="slice1Label" value="${escapeHtml(data.slice1Label || 'FTC')}">
-					<label for="slice1-value">Slice 1 Value:</label>
-					<input autocomplete="off" type="number" id="slice1-value" name="slice1Value" value="${escapeHtml(data.slice1Value || 0)}">
-				</div>
-				<div>
-					<label for="slice2-label">Slice 2 Label:</label>
-					<input autocomplete="off" type="text" id="slice2-label" name="slice2Label" value="${escapeHtml(data.slice2Label || 'Outreach')}">
-					<label for="slice2-value">Slice 2 Value:</label>
-					<input autocomplete="off" type="number" id="slice2-value" name="slice2Value" value="${escapeHtml(data.slice2Value || 0)}">
-				</div>
-				<div>
-					<label for="slice3-label">Slice 3 Label:</label>
-					<input autocomplete="off" type="text" id="slice3-label" name="slice3Label" value="${escapeHtml(data.slice3Label || 'go kart game')}">
-					<label for="slice3-value">Slice 3 Value:</label>
-					<input autocomplete="off" type="number" id="slice3-value" name="slice3Value" value="${escapeHtml(data.slice3Value || 0)}">
-				</div>
-			</div>
-			<hr>
-			<h3>Budget Coverage</h3>
-			<label for="covered-value">Covered Amount:</label>
-			<input autocomplete="off" type="number" id="covered-value" name="coveredValue" value="${escapeHtml(data.coveredValue || 0)}">
-			<label for="coverage-remaining">Remaining Amount:</label>
-			<input autocomplete="off" type="number" id="coverage-remaining" name="coverageRemaining" value="${escapeHtml(data.coverageRemaining || 0)}">
-			<hr>
-			<h3>Finance Project: First Tech Challenge</h3>
-			<label for="ftc-title">Title:</label>
-			<input autocomplete="off" type="text" id="ftc-title" name="ftcTitle" value="${escapeHtml(data.ftcTitle || '')}">
-			<label for="ftc-image">Image (file):</label>
-			<input id="ftc-image" type="file" name="ftcImage" accept="image/*">
-			<br>
-			<img id="ftc-image-preview" style="max-height:120px; display:${data.ftcImageData ? 'block' : 'none'}; margin-top:6px;" src="${data.ftcImageData || ''}" alt="FTC preview">
-			<label for="ftc-progress">Progress % (display text inside bar):</label>
-			<input autocomplete="off" type="number" id="ftc-progress" name="ftcProgress" value="${escapeHtml(data.ftcProgress || 0)}" min="0" max="100">
-			<label for="ftc-details">Details text (dropdown content):</label>
-			<textarea id="ftc-details" name="ftcDetails">${escapeHtml(data.ftcDetails || '')}</textarea>
-			<hr>
-			<h3>Footer / Contact</h3>
-			<label for="donate-contact">Donate/Sponsor contact (email):</label>
-			<input autocomplete="email" type="email" id="donate-contact" name="donateContact" value="${escapeHtml(data.donateContact || '')}">
-			<label for="insta-link">Instagram URL:</label>
-			<input autocomplete="url" type="text" id="insta-link" name="instagramUrl" value="${escapeHtml(data.instagramUrl || '')}">
-			<hr>
+			<h3>Finances - Items</h3>
+			<p>Use "Add Finance Item" to add named items with total needed and amount covered so far. The charts will be calculated from these items.</p>
 			<div id="additional-finance-items">
 			  <!-- dynamic additional finance rows will be rendered here -->
 			</div>
@@ -373,20 +323,39 @@ function initFinancesEditor() {
 		}
 
 			function renderAdditional(items){
-				console.log('renderAdditional called, items length=', (items||[]).length);
-				additionalRoot.innerHTML = '';
-			(items || []).forEach(function(it, idx){
-				var row = document.createElement('div');
-				row.className = 'finance-item-row';
-				row.innerHTML = '<input type="text" class="fin-label" placeholder="Label" value="'+(it.label||'')+'"> '
-					+ '<input type="number" class="fin-value" placeholder="Value" value="'+(it.value||0)+'"> '
-					+ '<button type="button" class="remove-finance">Remove</button>';
-				additionalRoot.appendChild(row);
-				row.querySelector('.remove-finance').addEventListener('click', function(){
-					items.splice(idx,1); renderAdditional(items);
-				});
-			});
-		}
+						console.log('renderAdditional called, items length=', (items||[]).length);
+						additionalRoot.innerHTML = '';
+					(items || []).forEach(function(it, idx){
+						var row = document.createElement('div');
+						row.className = 'finance-item-row';
+						row.innerHTML = '<input type="text" class="fin-name" placeholder="Name" value="'+(it.name||'')+'"> '
+							+ '<input type="number" class="fin-total" placeholder="Total needed" value="'+(it.totalNeeded||0)+'"> '
+							+ '<input type="number" class="fin-have" placeholder="Have so far" value="'+(it.haveSoFar||0)+'"> '
+							+ '<br><textarea class="fin-desc" placeholder="Description">'+(it.description||'')+'</textarea>'
+							+ '<br><input type="file" class="fin-image" accept="image/*"> <img class="fin-image-preview" style="max-height:60px; display:'+(it.imageData? 'inline-block':'none')+'; margin-left:6px;" src="'+(it.imageData||'')+'"> '
+							+ '<button type="button" class="remove-finance">Remove</button>';
+						additionalRoot.appendChild(row);
+
+						// wire image preview handling
+						(function(r, item){
+						  var fileInput = r.querySelector('.fin-image');
+						  var preview = r.querySelector('.fin-image-preview');
+						  if (fileInput) {
+							fileInput.addEventListener('change', function(ev){
+							  var f = ev.target.files && ev.target.files[0];
+							  if (!f) return;
+							  var reader = new FileReader();
+							  reader.onload = function(e){ preview.src = e.target.result; preview.style.display = 'inline-block'; };
+							  reader.readAsDataURL(f);
+							});
+						  }
+						})(row, it);
+
+						row.querySelector('.remove-finance').addEventListener('click', function(){
+							items.splice(idx,1); renderAdditional(items);
+						});
+					});
+				}
 
 		// load saved finances_data
 		var saved = null;
@@ -394,7 +363,7 @@ function initFinancesEditor() {
 		var otherItems = (saved && saved.otherItems) ? saved.otherItems.slice() : [];
 		renderAdditional(otherItems);
 
-		function addFinanceItem(){ console.log('addFinanceItem triggered'); otherItems.push({ label: 'New Item', value: 0 }); renderAdditional(otherItems); }
+	function addFinanceItem(){ console.log('addFinanceItem triggered'); otherItems.push({ name: 'New Item', description: '', imageData: null, totalNeeded: 0, haveSoFar: 0 }); renderAdditional(otherItems); }
 
 		// wire local add button inside page (if present)
 		var addFinanceBtn = document.getElementById('add-finance');
@@ -415,15 +384,12 @@ function initFinancesEditor() {
 			});
 		}
 
-		// populate fields from saved
-		if (saved) {
+		// populate rows from saved (only otherItems are relevant here)
+		if (saved && saved.otherItems) {
 			try {
-				['budget','totalExpenses','remaining','slice1Label','slice1Value','slice2Label','slice2Value','slice3Label','slice3Value','coveredValue','coverageRemaining','ftcTitle','ftcProgress','ftcDetails','donateContact','instagramUrl'].forEach(function(k){
-					var el = form.querySelector('#'+k) || form.querySelector('[name="'+k+'"]');
-					if (el && saved[k] !== undefined) el.value = saved[k];
-				});
-				if (saved.ftcImageData && ftcPreview) { ftcPreview.src = saved.ftcImageData; ftcPreview.style.display='block'; }
-			} catch(e){ console.warn('populate finances failed', e); }
+				otherItems = saved.otherItems.slice();
+				renderAdditional(otherItems);
+			} catch (e) { console.warn('populate finances failed', e); }
 		}
 
 		// handle submit to save finances_data
@@ -445,9 +411,13 @@ function initFinancesEditor() {
 				var rows = additionalRoot.querySelectorAll('.finance-item-row');
 				var items = [];
 				rows.forEach(function(r){
-					var label = (r.querySelector('.fin-label')||{}).value || '';
-					var value = Number((r.querySelector('.fin-value')||{}).value) || 0;
-					items.push({ label: label, value: value });
+					var name = (r.querySelector('.fin-name')||{}).value || '';
+					var desc = (r.querySelector('.fin-desc')||{}).value || '';
+					var total = Number((r.querySelector('.fin-total')||{}).value) || 0;
+					var have = Number((r.querySelector('.fin-have')||{}).value) || 0;
+					var imgEl = r.querySelector('.fin-image-preview');
+					var imgData = (imgEl && imgEl.src && imgEl.src.indexOf('data:')===0) ? imgEl.src : (imgEl && imgEl.src && imgEl.src.indexOf('http')===0 ? imgEl.src : null);
+					items.push({ name: name, description: desc, imageData: imgData, totalNeeded: total, haveSoFar: have });
 				});
 				data.otherItems = items;
 			} catch(e){ data.otherItems = otherItems || []; }
@@ -468,11 +438,18 @@ function setupAddButtons() {
 		addMember.onclick = () => { console.log('Add Member clicked'); addForm('members', {}); };
 	}
 	if (addFinance) {
-		// dispatch an event so page-specific scripts can handle adding finance rows
-		addFinance.addEventListener('click', function(){
-			console.log('Add Finance clicked');
-			document.dispatchEvent(new CustomEvent('add-finance-clicked'));
-		});
+		// If the page already contains an additional-finance-items container, assume
+		// the page will handle adding finance rows itself (to avoid duplicate rows).
+		if (!document.getElementById('additional-finance-items')) {
+			// dispatch an event so pages without a local handler can still add rows
+			addFinance.addEventListener('click', function(){
+				console.log('Add Finance clicked (global dispatch)');
+				document.dispatchEvent(new CustomEvent('add-finance-clicked'));
+			});
+		} else {
+			// page has its own handler; don't dispatch the global event to avoid duplicates
+			console.log('Add Finance button present but page has local handler; skipping global dispatch');
+		}
 	}
 }
 
@@ -518,10 +495,28 @@ document.addEventListener('add-finance-clicked', function fireFallbackAdd(e){
 		console.log('fallbackAdd: appending finance row to', root);
 		var row = document.createElement('div');
 		row.className = 'finance-item-row';
-		row.innerHTML = '<input type="text" class="fin-label" placeholder="Label"> '
-			+ '<input type="number" class="fin-value" placeholder="Value" value="0"> '
+		row.innerHTML = '<label>Name:</label> <input type="text" class="fin-name" placeholder="Item name"> <br>'
+			+ '<label>Total needed ($):</label> <input type="number" class="fin-total" placeholder="Total needed" value="0"> <br>'
+			+ '<label>Have so far ($):</label> <input type="number" class="fin-have" placeholder="Have so far" value="0"> <br>'
+			+ '<label>Description:</label><br><textarea class="fin-desc" placeholder="Description"></textarea><br>'
+			+ '<label>Image:</label> <input type="file" class="fin-image" accept="image/*"> '
+			+ '<img class="fin-image-preview" style="max-height:60px; display:none; margin-left:6px;"> <br>'
 			+ '<button type="button" class="remove-finance">Remove</button>';
 		root.appendChild(row);
+
+		// wire preview handler
+		var fileInput = row.querySelector('.fin-image');
+		var preview = row.querySelector('.fin-image-preview');
+		if (fileInput) {
+			fileInput.addEventListener('change', function(ev){
+				var f = ev.target.files && ev.target.files[0];
+				if (!f) return;
+				var reader = new FileReader();
+				reader.onload = function(e){ preview.src = e.target.result; preview.style.display = 'inline-block'; };
+				reader.readAsDataURL(f);
+			});
+		}
+
 		row.querySelector('.remove-finance').addEventListener('click', function(){ row.remove(); });
 	} catch(err) { console.warn('fallbackAdd error', err); }
 });
@@ -595,14 +590,9 @@ function renderPageData() {
 		});
 	}
 	if (path === 'finances.html') {
-	const data = getPageData('finances') || [];
-	if (data.length === 0) return;
-		const obj = data[0];
-		if (!obj) return;
-		// Replace main content with budget/expenses
-		const main = document.querySelector('main');
-		if (!main) return;
-		main.innerHTML = `<div class="finance-summary"><h2>Budget</h2><p>${obj.budget || ''}</p><h3>Expenses</h3><p>${obj.expenses || ''}</p></div>`;
+	// finances page is handled by its own script (uses localStorage.finances_data).
+	// Avoid overwriting the main content here so finances.html can render items and charts.
+	return;
 	}
 }
 

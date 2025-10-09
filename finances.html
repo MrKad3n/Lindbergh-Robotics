@@ -82,66 +82,83 @@
 						coveredConfig
 					);
 
-					// Apply saved edits if present (saved by edit.html)
-					(function(){
-						var saved = null;
-						try { saved = JSON.parse(localStorage.getItem('finances_data') || 'null'); } catch(e) { saved = null; }
-						if (!saved) return;
+										// Apply saved edits if present (saved by edit.html)
+										(function(){
+												var saved = null;
+												try { saved = JSON.parse(localStorage.getItem('finances_data') || 'null'); } catch(e) { saved = null; }
+												if (!saved) return;
 
-						// update overview numbers
-						var paras = document.querySelectorAll('.finance-overview p');
-						if (paras && paras.length >= 3) {
-							paras[0].textContent = 'Current Budget: ' + (saved.budget || paras[0].textContent.split(': ')[1]);
-							paras[1].textContent = 'Total Expenses: ' + (saved.totalExpenses || paras[1].textContent.split(': ')[1]);
-							paras[2].textContent = 'Remaining Budget: ' + (saved.remaining || paras[2].textContent.split(': ')[1]);
-						}
+												// update overview numbers: prefer explicit saved values; otherwise compute from items
+												var paras = document.querySelectorAll('.finance-overview p');
+												if (paras && paras.length >= 3) {
+													var totalRequested = 0;
+													var totalHave = 0;
+													(saved.otherItems || []).forEach(function(it){ totalRequested += Number(it.totalNeeded)||0; totalHave += Number(it.haveSoFar)||0; });
+													var remainingCalc = Math.max(0, totalRequested - totalHave);
+													paras[0].textContent = 'Current Budget: ' + (saved.budget || ('$' + totalRequested));
+													paras[1].textContent = 'Total Expenses: ' + (saved.totalExpenses || ('$' + totalHave));
+													paras[2].textContent = 'Remaining Budget: ' + (saved.remaining || ('$' + remainingCalc));
+												}
 
-						// update pie chart data & labels
-						if (saved.slice1Value || saved.slice2Value || saved.slice3Value) {
-							financeChart.data.datasets[0].data = [Number(saved.slice1Value)||0, Number(saved.slice2Value)||0, Number(saved.slice3Value)||0];
-						}
-						if (saved.slice1Label || saved.slice2Label || saved.slice3Label) {
-							financeChart.data.labels = [saved.slice1Label||financeChart.data.labels[0], saved.slice2Label||financeChart.data.labels[1], saved.slice3Label||financeChart.data.labels[2]];
-						}
-						financeChart.update();
+												// If saved.otherItems exists, compute pie slices and coverage from those items
+												try {
+													var items = saved.otherItems || [];
+													if (items.length) {
+														// cost breakdown: use totalNeeded per item
+														var labels = items.map(function(it){ return it.name || 'Unnamed'; });
+														var totals = items.map(function(it){ return Number(it.totalNeeded) || 0; });
+														// update financeChart
+														financeChart.data.labels = labels;
+														financeChart.data.datasets[0].data = totals;
+														// if there are fewer colors than labels, extend with defaults
+														while ((financeChart.data.datasets[0].backgroundColor || []).length < labels.length) {
+															(financeChart.data.datasets[0].backgroundColor = financeChart.data.datasets[0].backgroundColor || []).push('rgb(150,150,150)');
+														}
+														financeChart.update();
 
-						// update coverage chart
-						if (saved.coveredValue || saved.coverageRemaining) {
-							coveredChart.data.datasets[0].data = [Number(saved.coveredValue)||0, Number(saved.coverageRemaining)||0];
-							coveredChart.update();
-						}
+														// coverage: sum of haveSoFar vs remaining needed (sum(totalNeeded)-sum(haveSoFar))
+														var haveSum = items.reduce(function(s,it){ return s + (Number(it.haveSoFar)||0); }, 0);
+														var totalSum = items.reduce(function(s,it){ return s + (Number(it.totalNeeded)||0); }, 0);
+														var remaining = Math.max(0, totalSum - haveSum);
+														coveredChart.data.datasets[0].data = [haveSum, remaining];
+														coveredChart.data.labels = ['Covered','Remaining'];
+														coveredChart.update();
 
-						// update FTC image/progress/details
-						var ftcImg = document.getElementById('ftc-main-image');
-						var ftcFill = document.getElementById('ftc-progress-fill');
-						var dropdown = document.getElementById('myDropdown');
-						if (saved.ftcImageData) { if (ftcImg) ftcImg.src = saved.ftcImageData; }
-						if (saved.ftcProgress && ftcFill) { ftcFill.textContent = (saved.ftcProgress) + '%'; ftcFill.style.width = (Number(saved.ftcProgress)||0) + '%'; }
-						if (saved.ftcDetails && dropdown) { dropdown.textContent = saved.ftcDetails; }
+														// render additional finance items list with name, have/total and description
+														var addList = document.getElementById('additional-finance-list');
+														if (addList) {
+															addList.innerHTML = '<h3>Other Finance Items</h3>' +
+																'<ul>' + items.map(function(it){
+																	var name = it.name || '';
+																	var tot = Number(it.totalNeeded)||0;
+																	var have = Number(it.haveSoFar)||0;
+																	var desc = it.description || '';
+																	return '<li>' + (name ? ('<strong>'+name+'</strong>: ') : '') + '$' + have + ' / $' + tot + (desc ? (' — ' + desc) : '') + '</li>';
+																}).join('') + '</ul>';
+														}
+													}
+												} catch(e) { console.warn('failed to compute charts from otherItems', e); }
 
-						// update footer donate contact and instagram
-						try {
-							if (saved.donateContact) {
-								var donateLink = document.querySelector('.donate-box a');
-								if (donateLink) donateLink.href = 'mailto:' + saved.donateContact;
-							}
-							if (saved.instagramUrl) {
-								var insta = document.querySelector('footer a[href*="instagram"]');
-								if (insta) insta.href = saved.instagramUrl;
-							}
-						} catch(e){ console.warn('failed to update footer links', e); }
+												// update FTC image/progress/details
+												var ftcImg = document.getElementById('ftc-main-image');
+												var ftcFill = document.getElementById('ftc-progress-fill');
+												var dropdown = document.getElementById('myDropdown');
+												if (saved.ftcImageData) { if (ftcImg) ftcImg.src = saved.ftcImageData; }
+												if (saved.ftcProgress && ftcFill) { ftcFill.textContent = (saved.ftcProgress) + '%'; ftcFill.style.width = (Number(saved.ftcProgress)||0) + '%'; }
+												if (saved.ftcDetails && dropdown) { dropdown.textContent = saved.ftcDetails; }
 
-						// render additional finance items if present
-						try {
-						  var addList = document.getElementById('additional-finance-list');
-						  if (saved && saved.otherItems && addList) {
-						    addList.innerHTML = '<h3>Other Finance Items</h3>' +
-						      '<ul>' + saved.otherItems.map(function(it){
-						        return '<li>' + (it.label || '') + ': $' + (Number(it.value)||0) + '</li>';
-						      }).join('') + '</ul>';
-						  }
-						} catch(e) { console.warn('failed to render otherItems', e); }
-					})();
+												// update footer donate contact and instagram
+												try {
+														if (saved.donateContact) {
+																var donateLink = document.querySelector('.donate-box a');
+																if (donateLink) donateLink.href = 'mailto:' + saved.donateContact;
+														}
+														if (saved.instagramUrl) {
+																var insta = document.querySelector('footer a[href*="instagram"]');
+																if (insta) insta.href = saved.instagramUrl;
+														}
+												} catch(e){ console.warn('failed to update footer links', e); }
+										})();
 
 				</script>
 

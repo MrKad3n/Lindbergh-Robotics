@@ -25,7 +25,9 @@
 				
 			}
 			main div img {
-				height: 100px;
+				max-width: 250px;
+				width: 100%;
+				min-width: 150px;
 				float:left;
 				
 			}
@@ -40,6 +42,14 @@
 				font-style: normal;
 				position:absolute;
 			}
+			#video {
+				display: block;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				
+				filter: brightness(50%);
+			}
 		</style>
 	</head>
     <body>
@@ -53,10 +63,12 @@
 		    </nav>
 		</header>
 		<main>
-			
+			<video autoplay muted loop id="video">
+				<source src="images/robot.mp4" type="video/mp4">
+				Your browser does not support the video tag.
 			<div>
 				
-				<img src="images/robot.png" alt="robot">
+				<img src="images/kids.png" alt="kids looking at a robot">
 				<h2 class="bbh-sans-bartle-regular" style="color:green; transform: rotate(-10deg);">Our Misson</h2>
 				<div id="green">
 					Here at Lindbergh Robotics, we are dedicated to creating a stronger and more inclusive STEM environment within our school district. Our goal is to inspire and prepare the next generation of innovators by teaching hands-on skills in robotics, engineering, and teamwork.

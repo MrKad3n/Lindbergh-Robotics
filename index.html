@@ -20,6 +20,7 @@
 				padding:10px;
 				margin: 5px;
 				margin-left:0%;
+				margin-right:0%;
 				text-align: center;
 				vertical-align:middle;
 				
@@ -28,12 +29,14 @@
 				max-width: 250px;
 				width: 100%;
 				min-width: 150px;
+				border-radius: 2px;
 				float:left;
 				
 			}
 			#green {
 				background-color: gold;
 				color:rgb(0, 61, 0);
+				font-size:125%;
 				
 			}
 			.bbh-sans-bartle-regular {
@@ -43,17 +46,60 @@
 				position:absolute;
 			}
 			#video {
+				position:absolute;
+				top:0;
+				left:0;
 				display: block;
 				right: 0;
 				bottom: 0;
 				width: 100%;
-				
+				             
+                pointer-events: none;
 				filter: brightness(50%);
 			}
+			.header-overlay {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                /* green at top, fading to fully transparent so page shows through */
+                background: linear-gradient(
+                    to bottom,
+                    rgba(68,221,3,0.5) 0%,
+                    rgba(68,221,3,0.45) 30%,
+                    rgba(68,221,3,0.15) 50%,
+                    rgba(68,221,3,0.0) 100%
+                );
+                box-shadow: none;
+                z-index: 3;
+                transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+            }
+
+            /* scrolled state for index-only header-overlay (overrides global header.scrolled)
+               keep position: sticky to avoid layout reflow/jump */
+            .header-overlay.scrolled {
+                /* keep the header in the flow (sticky) and change visuals only */
+                position: -webkit-sticky;
+                position: sticky;
+                background: green; /* full green when scrolled */
+                box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+                backdrop-filter: none;
+            }
+			main {
+                position: relative;
+                z-index: 0;
+				margin-top:110vh;
+            }
+
+
+            /* avoid layout jump when header is fixed */
+            main.with-header-padding {
+                padding-top: 82px; /* match header height */
+            }
 		</style>
 	</head>
     <body>
-		<header>
+		<header class="header-overlay">
 			<a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
             <nav>
 			<a href="index.html">Home</a>
@@ -62,12 +108,13 @@
             <a href="finances.html">Finances</a>
 		    </nav>
 		</header>
-		<main>
-			<video autoplay muted loop id="video">
+		<video autoplay muted loop id="video">
 				<source src="images/robot.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			<div>
-				
+			</video>
+		<main>
+			
+			<div data-anim="left" style="opacity: 0;">
 				<img src="images/kids.png" alt="kids looking at a robot">
 				<h2 class="bbh-sans-bartle-regular" style="color:green; transform: rotate(-10deg);">Our Misson</h2>
 				<div id="green">
@@ -79,6 +126,17 @@
 				</div>
 			</div>
 
+			<div data-anim="right" style="opacity: 0;">
+				<div id="green">
+					Here at Lindbergh Robotics, we are dedicated to creating a stronger and more inclusive STEM environment within our school district. Our goal is to inspire and prepare the next generation of innovators by teaching hands-on skills in robotics, engineering, and teamwork.
+					<br>
+					Through designing, building, and programming robots, we give students the opportunity to explore real-world problem solving while developing creativity, leadership, and collaboration. We also work with younger students to spark early interest in STEM, showing them that technology and innovation are not just concepts—they are things they can create.
+					<br>
+					By growing our program, we aim to build a community where students are encouraged to dream big, learn from challenges, and push the boundaries of what’s possible.
+				</div>
+				<img src="images/kids.png" alt="kids looking at a robot">
+				<h2 class="bbh-sans-bartle-regular" style="color:green; transform: rotate(10deg); left:85%">Our Misson</h2>
+			</div>
 
 
 
@@ -107,5 +165,49 @@
 		</footer>
     		<script src="script.js"></script>
 		<script src="transition.js"></script>
+
+		<script>
+        // Only for index.html: toggle header visual to solid when scrolled.
+        // Use position: sticky (set in .header-overlay) so the header stays in-flow and avoids jumps.
+        (function () {
+            const header = document.querySelector('header.header-overlay');
+            if (!header) return;
+            function update() {
+                const scrolled = window.scrollY > 100;
+                header.classList.toggle('scrolled', scrolled);
+                // no main padding toggle here — sticky preserves layout so no abrupt jump
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            window.requestAnimationFrame(update);
+        })();
+
+	(function() {
+            const targets = document.querySelectorAll('[data-anim]');
+            if (!targets.length) return;
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const anim = entry.target.getAttribute('data-anim');
+                    if (anim === 'left') {
+                        entry.target.classList.add('animated-left');
+                    } else { // default to right
+                        entry.target.classList.add('animated-right');
+                    }
+                    observer.unobserve(entry.target);
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            targets.forEach(t => observer.observe(t));
+        })();
+        </script>
 	</body>
 </html>

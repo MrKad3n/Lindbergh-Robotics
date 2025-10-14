@@ -3,6 +3,49 @@
     margin:0px;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+/*slide in animation on page load*/
+
+@keyframes fadeInSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(1500px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes fadeInSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-1500px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 2. Create a class to apply the animation */
+.animated-right {
+  animation: fadeInSlideRight 1.5s ease-out forwards;
+  /* Start hidden, so the transition is visible */
+  opacity: 0; 
+}
+.animated-left {
+    animation: fadeInSlideLeft 1.5s ease-out forwards;
+    /* Start hidden, so the transition is visible */
+    opacity: 0; 
+}
+.animated-right-delayed {
+    animation: fadeInSlideRight 1.5s ease-out forwards;
+    animation-delay: 0.5s; /* Delay the start of the animation */
+    /* Start hidden, so the transition is visible */
+    opacity: 0; 
+}
+
+
 header {
     background-color:green;
     color:white;
@@ -41,6 +84,10 @@ header nav a {
     margin: 0 14px; 
     display: inline-block;
 }
+
+
+
+
 footer {
     display: flex;
     align-items: center;

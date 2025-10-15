@@ -33,7 +33,7 @@
 				float:left;
 				
 			}
-			#green {
+			.green {
 				background-color: gold;
 				color:rgb(0, 61, 0);
 				font-size:125%;
@@ -91,11 +91,44 @@
 				margin-top:110vh;
             }
 
-
             /* avoid layout jump when header is fixed */
             main.with-header-padding {
                 padding-top: 82px; /* match header height */
             }
+			.calender {
+				display: flex;
+				flex-direction: row;	
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				background-color: rgba(255, 255, 255, 0.8);
+				border:1px solid #ddd;
+				border-radius: 8px;
+				padding: 20px;
+				margin: 20px auto;
+				max-width: 90%;
+				text-align: center;
+			}
+			.h2 {
+				margin-bottom: 20px;
+				text-align: center;
+			}
+			.calender .event {
+				background-color: #f9f9f9;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				padding: 15px;
+				margin:15px 10px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+			.calender .event img {
+				margin-right: 15px;
+				border-radius: 5px;
+				max-width: 100px;
+			}
 		</style>
 	</head>
     <body>
@@ -117,7 +150,7 @@
 			<div data-anim="left" style="opacity: 0;">
 				<img src="images/kids.png" alt="kids looking at a robot">
 				<h2 class="bbh-sans-bartle-regular" style="color:green; transform: rotate(-10deg);">Our Misson</h2>
-				<div id="green">
+				<div class="green">
 					Here at Lindbergh Robotics, we are dedicated to creating a stronger and more inclusive STEM environment within our school district. Our goal is to inspire and prepare the next generation of innovators by teaching hands-on skills in robotics, engineering, and teamwork.
 					<br>
 					Through designing, building, and programming robots, we give students the opportunity to explore real-world problem solving while developing creativity, leadership, and collaboration. We also work with younger students to spark early interest in STEM, showing them that technology and innovation are not just concepts—they are things they can create.
@@ -125,9 +158,9 @@
 					By growing our program, we aim to build a community where students are encouraged to dream big, learn from challenges, and push the boundaries of what’s possible.
 				</div>
 			</div>
-
+			<br><br><br><br><br><br>
 			<div data-anim="right" style="opacity: 0;">
-				<div id="green">
+				<div class="green">
 					Here at Lindbergh Robotics, we are dedicated to creating a stronger and more inclusive STEM environment within our school district. Our goal is to inspire and prepare the next generation of innovators by teaching hands-on skills in robotics, engineering, and teamwork.
 					<br>
 					Through designing, building, and programming robots, we give students the opportunity to explore real-world problem solving while developing creativity, leadership, and collaboration. We also work with younger students to spark early interest in STEM, showing them that technology and innovation are not just concepts—they are things they can create.
@@ -138,8 +171,21 @@
 				<h2 class="bbh-sans-bartle-regular" style="color:green; transform: rotate(10deg); left:85%">Our Misson</h2>
 			</div>
 
-
-
+			<h2 class="h2">Upcoming Competetions and Events</h2>
+			<div class="calender">
+				<div class="event">
+					<img src="images/kids.png" alt="meeting icon">
+					<h3>FTC Robtoics Comp</h3>
+					<time>November 15</time>
+					<p>Location: St. Louis, MO</p>
+				</div>
+				<div class="event">
+					<img src="images/kids.png" alt="meeting icon">
+					<h3>FTC Robtoics Comp</h3>
+					<p>Date: November 15, 2024</p>
+					<p>Location: St. Louis, MO</p>
+				</div>
+			</div>
 
 		</main>
 		<footer>

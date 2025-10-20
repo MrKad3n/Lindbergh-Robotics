@@ -39,6 +39,8 @@
 				font-size:125%;
 				
 			}
+			
+			
 			.bbh-sans-bartle-regular {
 				font-family: "BBH Sans Bartle", sans-serif;
 				font-weight: 400;
@@ -95,39 +97,11 @@
             main.with-header-padding {
                 padding-top: 82px; /* match header height */
             }
-			.calender {
-				display: flex;
-				flex-direction: row;	
-				align-items: center;
-				justify-content: center;
-				flex-wrap: wrap;
-				background-color: rgba(255, 255, 255, 0.8);
-				border:1px solid #ddd;
-				border-radius: 8px;
-				padding: 20px;
-				margin: 20px auto;
-				max-width: 90%;
-				text-align: center;
+			.header-overlay a {
+				color:yellow;
 			}
-			.h2 {
-				margin-bottom: 20px;
-				text-align: center;
-			}
-			.calender .event {
-				background-color: #f9f9f9;
-				border: 1px solid #ddd;
-				border-radius: 5px;
-				padding: 15px;
-				margin:15px 10px;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-			}
-			.calender .event img {
-				margin-right: 15px;
-				border-radius: 5px;
-				max-width: 100px;
+			.header-overlay a:hover {
+				color:limegreen;
 			}
 		</style>
 	</head>
@@ -175,15 +149,11 @@
 			<div class="calender">
 				<div class="event">
 					<img src="images/kids.png" alt="meeting icon">
-					<h3>FTC Robtoics Comp</h3>
-					<time>November 15</time>
-					<p>Location: St. Louis, MO</p>
-				</div>
-				<div class="event">
-					<img src="images/kids.png" alt="meeting icon">
-					<h3>FTC Robtoics Comp</h3>
-					<p>Date: November 15, 2024</p>
-					<p>Location: St. Louis, MO</p>
+					<div>
+						<h3>FTC Robtoics Comp</h3>
+						<p>November 15</p>
+						<p>Location: St. Louis, MO</p>
+					</div>
 				</div>
 			</div>
 

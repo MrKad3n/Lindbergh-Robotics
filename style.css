@@ -470,3 +470,52 @@ button:hover {
 
 /* Ensure the overlay's inner scrolling areas look like normal page */
 #page-transition-overlay div { -webkit-overflow-scrolling: touch; }
+
+.calender {
+				display: flex;
+				flex-direction: row;	
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				background-color: rgba(255, 255, 255, 0.8);
+				border:1px solid #ddd;
+				border-radius: 8px;
+				padding: 20px;
+				margin: 20px auto;
+				max-width: 90%;
+				text-align: center;
+			}
+			.h2 {
+				margin-bottom: 20px;
+				text-align: center;
+			}
+			.calender .event {
+				background-color: #f9f9f9;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				padding: 15px;
+				margin:15px 10px;
+				align-items: center;
+				justify-content: center;
+			}
+			.calender .event div {
+				display: flex;
+				flex-direction: column;
+				border:2px solid #ddd;
+				border-radius: 5px;
+			}
+			.calender .event img {
+				margin-right: 15px;
+				border-radius: 100%;
+				max-width: 200px;
+				float:left;
+			}
+			.calender .event h3 {
+				margin: 0 0 10px 0;
+				font-size:200%;
+			}
+			.calender .event p {
+				margin: 5px 0;
+				font-size: 180%;
+			}
+

@@ -1,241 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-		<title>Lindbergh Robotics</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="keywords" content="Robotics, Lindbergh, FTC, First Tech Challenge, Robotics Club, Flybots, STEM, Engineering, Technology, Highschool Robotics">
-		<meta name="description" content="Lindbergh Robotics is a high school robotics club that builds robots for the First Tech Challenge (FTC) competition, and does outreach to promote STEM education.">
+        <title>Lindbergh Robotics</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="Robotics, Lindbergh, FTC, First Tech Challenge, Robotics Club, Flybots, STEM, Engineering, Technology, Highschool Robotics">
+        <meta name="description" content="Lindbergh Robotics is a high school robotics club that builds robots for the First Tech Challenge (FTC) competition, and does outreach to promote STEM education.">
         <link rel="icon" type="image/x-icon" href="images/robot.png">
         <link rel="stylesheet" type="text/css" href="style.css">
-	</head>
+    </head>
     <body>
-		<header>
-			<a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
+        <header>
+            <a href="index.html"><img src="images/logo.png" alt="Lindbergh Robotics Logo" height="70"></a>
             <nav>
-				<a href="index.html">Home</a>
-				<a href="member.html">Members</a>
-				<a href="projects.html">Current Projects</a>
-				<a href="finances.html">Finances</a>
-		    </nav>
-		</header>
-		<main>
-			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-			<div class="finance-container">
-				<div class="finance-overview">
-					<h2>Finances Overview</h2>
-					<canvas id="financeChart" style="max-width: 600px; margin: 0 auto;"></canvas>
-					<canvas id="coveredChart" style="max-width: 600px; margin: 0 auto;"></canvas>
-					<p>Current Budget: $5000</p>
-					<p>Total Expenses: $2000</p>
-					<p>Remaining Budget: $3000</p>
-				</div>
+                <a href="index.html">Home</a>
+                <a href="member.html">Members</a>
+                <a href="projects.html">Current Projects</a>
+                <a href="finances.html">Finances</a>
+            </nav>
+        </header>
+        <main>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <div class="finance-overview">
+                <h2>Finances Overview</h2>
+                <canvas id="financeChart" style="max-width: 600px; margin: 0 auto;"></canvas>
+                <canvas id="coveredChart" style="max-width: 600px; margin: 0 auto;"></canvas>
+                <p>Current Budget: $5000</p>
+                <p>Total Expenses: $2000</p>
+                <p>Remaining Budget: $3000</p>
+            </div>
 
-				<script>
-					const data = {
-					datasets: [{
-						label: 'Cost Breakdown',
-						data: [1500, 500, 1000],
-						backgroundColor: [
-						'rgb(255, 99, 132)',
-						'rgb(54, 162, 235)',
-						'rgb(255, 205, 86)'
-						],
-						hoverOffset: 4
-					}],
-					labels: [
-						'FTC',
-						'Outreach',
-						'go kart game'
-					]
-					};
-					const config = {
-						type: 'pie',
-						data: data,
-					};
-					const financeChart = new Chart(
-						document.getElementById('financeChart'),
-						config
-					);
+            <div class="finance-container">
+                <!--place holders for additional finance things-->
+                <div id="additional-finance-list">
+                  <!-- dynamic additional finance items rendered here -->
+                </div>
+            </div>
 
-					const coveredData = {
-					datasets: [{
-						label: 'Budget Coverage',
-						data: [2000, 3000],
-						backgroundColor: [
-						'rgb(75, 192, 192)',
-						'rgb(201, 203, 207)'
-						],
-						hoverOffset: 4
-					}],
-					labels: [
-						'Covered',
-						'Remaining'
-					]
-					};
-					const coveredConfig = {
-						type: 'pie',
-						data: coveredData,
-					};
-					const coveredChart = new Chart(
-						document.getElementById('coveredChart'),
-						coveredConfig
-					);
+            <script src="script.js"></script> <!-- Moved this line up -->
 
-										// Apply saved edits if present (saved by edit.html)
-										(function(){
-												var saved = null;
-												try { saved = JSON.parse(localStorage.getItem('finances_data') || 'null'); } catch(e) { saved = null; }
-												if (!saved) return;
+            <script>
+                const data = {
+                datasets: [{
+                    label: 'Cost Breakdown',
+                    data: [1500, 500, 1000],
+                    backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }],
+                labels: [
+                    'FTC',
+                    'Outreach',
+                    'go kart game'
+                ]
+                };
+                const config = {
+                    type: 'pie',
+                    data: data,
+                };
+                const financeChart = new Chart(
+                    document.getElementById('financeChart'),
+                    config
+                );
 
-												// update overview numbers: prefer explicit saved values; otherwise compute from items
-												var paras = document.querySelectorAll('.finance-overview p');
-												if (paras && paras.length >= 3) {
-													var totalRequested = 0;
-													var totalHave = 0;
-													(saved.otherItems || []).forEach(function(it){ totalRequested += Number(it.totalNeeded)||0; totalHave += Number(it.haveSoFar)||0; });
-													var remainingCalc = Math.max(0, totalRequested - totalHave);
-													paras[0].textContent = 'Current Budget: ' + (saved.budget || ('$' + totalRequested));
-													paras[1].textContent = 'Total Expenses: ' + (saved.totalExpenses || ('$' + totalHave));
-													paras[2].textContent = 'Remaining Budget: ' + (saved.remaining || ('$' + remainingCalc));
-												}
+                const coveredData = {
+                datasets: [{
+                    label: 'Budget Coverage',
+                    data: [2000, 3000],
+                    backgroundColor: [
+                    'rgb(75, 192, 192)',
+                    'rgb(201, 203, 207)'
+                    ],
+                    hoverOffset: 4
+                }],
+                labels: [
+                    'Covered',
+                    'Remaining'
+                ]
+                };
+                const coveredConfig = {
+                    type: 'pie',
+                    data: coveredData,
+                };
+                const coveredChart = new Chart(
+                    document.getElementById('coveredChart'),
+                    coveredConfig
+                );
 
-												// If saved.otherItems exists, compute pie slices and coverage from those items
-												try {
-													var items = saved.otherItems || [];
-													if (items.length) {
-														// cost breakdown: use totalNeeded per item
-														var labels = items.map(function(it){ return it.name || 'Unnamed'; });
-														var totals = items.map(function(it){ return Number(it.totalNeeded) || 0; });
-														// update financeChart
-														financeChart.data.labels = labels;
-														financeChart.data.datasets[0].data = totals;
-														// if there are fewer colors than labels, extend with defaults
-														while ((financeChart.data.datasets[0].backgroundColor || []).length < labels.length) {
-															(financeChart.data.datasets[0].backgroundColor = financeChart.data.datasets[0].backgroundColor || []).push('rgb(150,150,150)');
-														}
-														financeChart.update();
+                // Apply saved edits if present (saved by edit.html)
+                (function(){
+                    var saved = null;
+                    try { saved = JSON.parse(localStorage.getItem('finances_data') || 'null'); } catch(e) { saved = null; }
+                    if (!saved) return;
 
-														// coverage: sum of haveSoFar vs remaining needed (sum(totalNeeded)-sum(haveSoFar))
-														var haveSum = items.reduce(function(s,it){ return s + (Number(it.haveSoFar)||0); }, 0);
-														var totalSum = items.reduce(function(s,it){ return s + (Number(it.totalNeeded)||0); }, 0);
-														var remaining = Math.max(0, totalSum - haveSum);
-														coveredChart.data.datasets[0].data = [haveSum, remaining];
-														coveredChart.data.labels = ['Covered','Remaining'];
-														coveredChart.update();
+                    // update overview numbers: prefer explicit saved values; otherwise compute from items
+                    var paras = document.querySelectorAll('.finance-overview p');
+                    if (paras && paras.length >= 3) {
+                        var totalRequested = 0;
+                        var totalHave = 0;
+                        (saved.otherItems || []).forEach(function(it){ totalRequested += Number(it.totalNeeded)||0; totalHave += Number(it.haveSoFar)||0; });
+                        var remainingCalc = Math.max(0, totalRequested - totalHave);
+                        paras[0].textContent = 'Current Budget: ' + (saved.budget || ('$' + totalRequested));
+                        paras[1].textContent = 'Total Expenses: ' + (saved.totalExpenses || ('$' + totalHave));
+                        paras[2].textContent = 'Remaining Budget: ' + (saved.remaining || ('$' + remainingCalc));
+                    }
 
-														// render additional finance items list with name, have/total and description
-														var addList = document.getElementById('additional-finance-list');
-														if (addList) {
-															addList.innerHTML = '<h3>Other Finance Items</h3>' +
-																'<ul>' + items.map(function(it){
-																	var name = it.name || '';
-																	var tot = Number(it.totalNeeded)||0;
-																	var have = Number(it.haveSoFar)||0;
-																	var desc = it.description || '';
-																	return '<li>' + (name ? ('<strong>'+name+'</strong>: ') : '') + '$' + have + ' / $' + tot + (desc ? (' — ' + desc) : '') + '</li>';
-																}).join('') + '</ul>';
-														}
-													}
-												} catch(e) { console.warn('failed to compute charts from otherItems', e); }
+                    // Get container for all finance items
+                    var financeProjects = document.querySelector('.finance-container');
+                    financeProjects.innerHTML = ''; // Clear existing content
 
-												// update FTC image/progress/details
-												var ftcImg = document.getElementById('ftc-main-image');
-												var ftcFill = document.getElementById('ftc-progress-fill');
-												var dropdown = document.getElementById('myDropdown');
-												if (saved.ftcImageData) { if (ftcImg) ftcImg.src = saved.ftcImageData; }
-												if (saved.ftcProgress && ftcFill) { ftcFill.textContent = (saved.ftcProgress) + '%'; ftcFill.style.width = (Number(saved.ftcProgress)||0) + '%'; }
-												if (saved.ftcDetails && dropdown) { dropdown.textContent = saved.ftcDetails; }
+                    // Function to create a finance card
+                    function createFinanceCard(name, img, percent, details, have, tot) {
+                        const dropdownId = 'myDropdown-' + name.replace(/\s+/g, '-'); // Unique ID
+                        const buttonId = 'dropbtn-' + name.replace(/\s+/g, '-'); // Unique ID
+                        var card = document.createElement('div');
+                        card.className = 'finance-projects';
+                        card.innerHTML = `
+                            <div>
+                                <h2>${escapeHtml(name)}</h2>
+                                <div class="flex">
+                                    <img src="${escapeHtml(img)}" alt="${escapeHtml(name)}">
+                                    <div class="progress-bar" >
+										
+                                        <div class="progress-bar-fill" id="progress-bar-fill-${name}" style="height: ${percent}%; margin-top: ${100-percent}%;">
+											${percent}%
+											</div>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="dropbtn" onclick="myFunction('${dropdownId}')" id="${buttonId}">Details ▼</button>
+                                    <div id="${dropdownId}" class="dropdown-content">
+                                        ${escapeHtml(details)}
+                                    </div>
+                                </div>
+                                <div style="font-size:13px;color:#444;">$${have.toLocaleString()} / $${tot.toLocaleString()}</div>
+                            </div>
+                        `;
+                        return card;
+                    }
 
-												// update footer donate contact and instagram
-												try {
-														if (saved.donateContact) {
-																var donateLink = document.querySelector('.donate-box a');
-																if (donateLink) donateLink.href = 'mailto:' + saved.donateContact;
-														}
-														if (saved.instagramUrl) {
-																var insta = document.querySelector('footer a[href*="instagram"]');
-																if (insta) insta.href = saved.instagramUrl;
-														}
-												} catch(e){ console.warn('failed to update footer links', e); }
-										})();
+                    // Create FTC card
+                    var ftcImg = saved.ftcImageData || 'images/ftc.png';
+                    var ftcProgress = saved.ftcProgress || '0';
+                    var ftcDetails = saved.ftcDetails || 'The FTC team consists of multiple sub teams that work on different aspects of the robot and competition. The main sub teams are:';
+                    var ftcCard = createFinanceCard('First Tech Challenge', ftcImg, ftcProgress, ftcDetails, 0, 0);
+                    financeProjects.appendChild(ftcCard);
 
-				</script>
+                    // Create "Other Finance Items" cards
+                    try {
+                        var items = saved.otherItems || [];
+                        if (items.length) {
+                            items.forEach(function(it){
+                                var name = it.name || 'Unnamed';
+                                var tot = Number(it.totalNeeded)||0;
+                                var have = Number(it.haveSoFar)||0;
+                                var desc = it.description || '';
+                                var img = it.imageData || it.image || 'images/robot.png';
 
+                                var percent = tot > 0 ? Math.round((have / tot) * 100) : (have > 0 ? 100 : 0);
+                                if (percent < 0) percent = 0;
+                                if (percent > 100) percent = 100;
 
-				<div class="finance-projects">
-					<div>
-						<h2>First Tech Challenge</h2>
-						<div class="flex">
-							<img src="images/ftc.png" alt="FTC Logo">
-							<div class="progress-bar" >
-								<div class="progress-bar-fill">
-									80%
-								</div>
-							</div>
-						</div>
-						<div class="dropdown">
-							<button class="dropbtn" onclick="myFunction('myDropdown')">Details ▼</button>
-							<div id="myDropdown" class="dropdown-content">
-								The FTC team consists of multiple sub teams that work on different aspects of the robot and competition. The main sub teams are:
-							</div>
+                                var card = createFinanceCard(name, img, percent, desc, have, tot);
+                                financeProjects.appendChild(card);
+                            });
+                        }
+                    } catch(e) { console.warn('failed to compute charts from otherItems', e); }
 
-						</div>
-					</div>
-					
-				</div>
-				<!--place holders for additional finance things-->
-				<div id="additional-finance-list">
-				  <!-- dynamic additional finance items rendered here -->
-				</div>
-				
+                    // update footer donate contact and instagram
+                    try {
+                        if (saved.donateContact) {
+                            var donateLink = document.querySelector('.donate-box a');
+                            if (donateLink) donateLink.href = 'mailto:' + saved.donateContact;
+                        }
+                        if (saved.instagramUrl) {
+                            var insta = document.querySelector('footer a[href*="instagram"]');
+                            if (insta) insta.href = saved.instagramUrl;
+                        }
+                    } catch(e){ console.warn('failed to update footer links', e); }
+                })();
 
-				</div>
+            </script>
+        </main>
+        <footer>
+            <div>
+                <p>&copy; 2025 Lindbergh Robotics</p>
+                <p>Website by Kaden Cruts</p>
+                <a href="officer.html">Officer Login</a>
+            </div>
+            <div>
+                <h2>Like To Join?</h2>
+                <p>We meet in room 275 every Monday and Thursday, A & B lunch. Don't Worry if you have never done robotics before, we are willing to teach and help you, it's a lot easier than it sounds and looks! Contact <a href="mailto:26baxterboegeman@lindberghschools.ws">Baxter Boegemann</a> for more information</p>
+            </div>
+            <div class="donate-box">
+                <h2>Donate/Sponsor</h2>
+                <p>If you would like to support our team, please reach out to our club sponsor, <a href="mailto:sponsor@example.com">Dr. Shearing</a> for more information on how to donate.</p>
+            </div>
+            <div>
+                <h2>Social Media</h2>
+                <p>Follow us on our social media channels for the latest updates:</p>
+                <a href="https://www.instagram.com/lhs_flybots/" target="_blank"><img src="images/instagram.png" alt="instagarm link" height="50"></a>
+            </div>
+        </footer>
+        <script>
+            function myFunction(element) {
+                document.getElementById(element).classList.toggle("show");
+            }
 
-			</div>
-			
-		</main>
-		<footer>
-			<div>
-				<p>&copy; 2025 Lindbergh Robotics</p>
-				<p>Website by Kaden Cruts</p>
-				<a href="officer.html">Officer Login</a>
-			</div>
-			<div>
-				<h2>Like To Join?</h2>
-				<p>We meet in room 275 every Monday and Thursday, A & B lunch. Don't Worry if you have never done robotics before, we are willing to teach and help you, it's a lot easier than it sounds and looks! Contact <a href="mailto:26baxterboegeman@lindberghschools.ws">Baxter Boegemann</a> for more information</p>
-			</div>
-			<div class="donate-box">
-				<h2>Donate/Sponsor</h2>
-				<p>If you would like to support our team, please reach out to our club sponsor, <a href="mailto:sponsor@example.com">Dr. Shearing</a> for more information on how to donate.</p>
-			</div>
-			<div>
-				<h2>Social Media</h2>
-				<p>Follow us on our social media channels for the latest updates:</p>
-				<a href="https://www.instagram.com/lhs_flybots/" target="_blank"><img src="images/instagram.png" alt="instagarm link" height="50"></a>
-				
-			</div>
-		</footer>
-		<script>
-			function myFunction(element) {
-				document.getElementById(element).classList.toggle("show");
-			}
-
-			// Close the dropdown menu if the user clicks outside of it
-			window.onclick = function(event) {
-			if (!event.target.matches('.dropbtn')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				var i;
-				for (i = 0; i < dropdowns.length; i++) {
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show')) {
-					openDropdown.classList.remove('show');
-				}
-				}
-			}
-			}
-		</script>
-		<script src="script.js"></script>
-		<script src="transition.js"></script>
-	</body>
+            // Close the dropdown menu if the user clicks outside of it
+            window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+                }
+            }
+            }
+        </script>
+        <script src="transition.js"></script>
+    </body>
 </html>

@@ -60,14 +60,13 @@
 				filter: brightness(50%);
 			}
 			.header-overlay {
-                position: -webkit-sticky;
-                position: sticky;
+                
                 top: 0;
                 width: 100%;
                 /* green at top, fading to fully transparent so page shows through */
                 background: linear-gradient(
                     to bottom,
-                    rgba(68,221,3,0.5) 0%,
+                    rgba(68,221,3,0.6) 0%,
                     rgba(68,221,3,0.45) 30%,
                     rgba(68,221,3,0.15) 50%,
                     rgba(68,221,3,0.0) 100%
@@ -81,8 +80,7 @@
                keep position: sticky to avoid layout reflow/jump */
             .header-overlay.scrolled {
                 /* keep the header in the flow (sticky) and change visuals only */
-                position: -webkit-sticky;
-                position: sticky;
+                
                 background: green; /* full green when scrolled */
                 box-shadow: 0 2px 10px rgba(0,0,0,0.08);
                 backdrop-filter: none;

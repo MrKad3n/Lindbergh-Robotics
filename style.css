@@ -50,12 +50,13 @@ header {
     background-color:green;
     color:white;
     text-align:center;
-    font-size:38px;
-    height:100px;
+    font-size:clamp(20px, 30px, 40px);
+    height:fit-content;
     vertical-align: middle;
     line-height: 100px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
+    font-weight:bold;
     box-shadow: 0px 4px 2px -2px gray;
     /* keep header above the sliding overlay */
     position: relative;
@@ -90,6 +91,7 @@ header nav a {
 
 footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     background-color: green;
@@ -108,7 +110,8 @@ footer {
 }
 footer div {
     padding: 15px;
-    max-width: 30%;
+    width:clamp(200px, 300px, 400px);
+    border: 2px solid darkgreen;
     border-radius: 5px;
     margin: 10px 0;
 }
@@ -126,7 +129,7 @@ footer h2 {
 /*! Project Styles */
 
 .project {
-    height: 200px;
+    height: fit-content;
     padding: 10px;
     margin:10px;
     box-sizing: border-box;
@@ -135,6 +138,7 @@ footer h2 {
     border-radius: 3px;
     font-size:100%;
     font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 
 }
 .project img {

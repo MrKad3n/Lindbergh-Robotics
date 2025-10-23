@@ -86,7 +86,22 @@ header nav a {
     display: inline-block;
 }
 
-
+@media screen and (max-width: 600px) {
+    header {
+        font-size: clamp(14px, 18px, 22px);
+        line-height: 80px;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    header img {
+        height: 50px;
+        padding: 10px;
+    }
+    header nav a {
+        margin: 0 8px; 
+    }
+}
 
 
 footer {

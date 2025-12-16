@@ -36,6 +36,68 @@
                   <!-- dynamic additional finance items rendered here -->
                 </div>
             </div>
+            
+            <script>
+                // Initialize placeholder finance data if not already present
+                (function() {
+                    var existing = localStorage.getItem('finances_data');
+                    if (!existing || existing === 'null' || existing === '{}') {
+                        var placeholderData = {
+                            budget: '$5000',
+                            totalExpenses: '$3200',
+                            remaining: '$1800',
+                            ftcProgress: '75',
+                            ftcDetails: 'The FTC team consists of multiple sub teams that work on different aspects of the robot and competition. Our main goal is to compete successfully while learning valuable STEM skills.',
+                            ftcImageData: 'images/ftc.png',
+                            otherItems: [
+                                {
+                                    name: 'Robot Parts & Materials',
+                                    description: 'Essential components including motors, sensors, wheels, and structural materials for building competition robots.',
+                                    totalNeeded: 1500,
+                                    haveSoFar: 1200,
+                                    imageData: 'images/robot.png'
+                                },
+                                {
+                                    name: 'Competition Registration',
+                                    description: 'Registration fees for FTC competitions including regional and state tournaments.',
+                                    totalNeeded: 800,
+                                    haveSoFar: 800,
+                                    imageData: 'images/ftc.png'
+                                },
+                                {
+                                    name: 'Tools & Equipment',
+                                    description: 'Workshop tools, safety equipment, and maintenance supplies for robot construction and repair.',
+                                    totalNeeded: 500,
+                                    haveSoFar: 300,
+                                    imageData: 'images/robot.png'
+                                },
+                                {
+                                    name: 'Team Travel Expenses',
+                                    description: 'Transportation, lodging, and meals for team members attending competitions and events.',
+                                    totalNeeded: 1200,
+                                    haveSoFar: 600,
+                                    imageData: 'images/robot.png'
+                                },
+                                {
+                                    name: 'Outreach Materials',
+                                    description: 'Supplies for community demonstrations, workshops, and STEM education events.',
+                                    totalNeeded: 300,
+                                    haveSoFar: 200,
+                                    imageData: 'images/robot.png'
+                                },
+                                {
+                                    name: 'Team Apparel',
+                                    description: 'Team shirts, jackets, and uniforms for competitions and public events.',
+                                    totalNeeded: 400,
+                                    haveSoFar: 100,
+                                    imageData: 'images/robot.png'
+                                }
+                            ]
+                        };
+                        localStorage.setItem('finances_data', JSON.stringify(placeholderData));
+                    }
+                })();
+            </script>
 
             <script src="script.js"></script> <!-- Moved this line up -->
 
@@ -89,6 +151,11 @@
                     document.getElementById('coveredChart'),
                     coveredConfig
                 );
+
+                // Helper function for escaping HTML
+                function escapeHtml(s) {
+                    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                }
 
                 // Apply saved edits if present (saved by edit.html)
                 (function(){

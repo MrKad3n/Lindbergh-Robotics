@@ -88,7 +88,7 @@ function showSavedMessage(form) {
 	const msg = document.createElement('div');
 	msg.textContent = 'Saved locally. Open the target page to view changes.';
 	msg.style.color = 'white';
-	msg.style.background = 'green';
+	msg.style.background = '#2E7D32';
 	msg.style.padding = '6px';
 	msg.style.marginTop = '6px';
 	form.appendChild(msg);
